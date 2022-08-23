@@ -1,4 +1,6 @@
-﻿namespace tabuleiro
+﻿using tabuleiro.enums;
+
+namespace tabuleiro
 {
     internal class Peca
     {
