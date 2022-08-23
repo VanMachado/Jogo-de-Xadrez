@@ -11,9 +11,9 @@ namespace Xadrez_Console
             {
                 for (int j = 0; j < tab.Colunas; j++)
                 {
-                    if (tab.Peca(i,j) != null)
+                    if (tab.PosicaoPeca(i,j) != null)
                     {
-                        Console.Write(tab.Peca(i,j) + " ");
+                        Console.Write(tab.PosicaoPeca(i,j) + " ");
                     }
                     else
                     {
