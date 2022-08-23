@@ -3,8 +3,12 @@ using Xadrez_Console;
 using xadrez;
 using tabuleiro.exceptions;
 
-PosicaoXadrez pos = new PosicaoXadrez('c', 1);
+Tabuleiro tab = new Tabuleiro(8, 8);
 
-Console.WriteLine(pos);
+Posicao pos = new Posicao(7, 0);
+Posicao pos2 = new Posicao(0, 0);
 
-Console.WriteLine(pos.ToPosicao());
+tab.ColocarPeca(new Rei(tabuleiro.enums.Cor.Branca, tab), pos);
+tab.ColocarPeca(new Rei(tabuleiro.enums.Cor.Preta, tab), pos2);
+
+Tela.ImprimirTabuleiro(tab);
