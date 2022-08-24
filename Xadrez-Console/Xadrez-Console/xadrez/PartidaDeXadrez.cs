@@ -30,14 +30,14 @@ namespace xadrez
         public void ColocarPeca()
         {
             Tab.ColocarPeca(new Torre(Cor.Branca, Tab), new PosicaoXadrez('a', 1).ToPosicao());
-            Tab.ColocarPeca(new Cavalo(Cor.Branca, Tab), new PosicaoXadrez('b', 1).ToPosicao());
-            Tab.ColocarPeca(new Bispo(Cor.Branca, Tab), new PosicaoXadrez('c', 1).ToPosicao());
-            Tab.ColocarPeca(new Rainha(Cor.Branca, Tab), new PosicaoXadrez('d', 1).ToPosicao());
+            //Tab.ColocarPeca(new Cavalo(Cor.Branca, Tab), new PosicaoXadrez('b', 1).ToPosicao());
+            //Tab.ColocarPeca(new Bispo(Cor.Branca, Tab), new PosicaoXadrez('c', 1).ToPosicao());
+           // Tab.ColocarPeca(new Rainha(Cor.Branca, Tab), new PosicaoXadrez('d', 1).ToPosicao());
             Tab.ColocarPeca(new Rei(Cor.Branca, Tab), new PosicaoXadrez('e', 1).ToPosicao());
-            Tab.ColocarPeca(new Bispo(Cor.Branca, Tab), new PosicaoXadrez('f', 1).ToPosicao());
-            Tab.ColocarPeca(new Cavalo(Cor.Branca, Tab), new PosicaoXadrez('g', 1).ToPosicao());
-            Tab.ColocarPeca(new Torre(Cor.Branca, Tab), new PosicaoXadrez('h', 1).ToPosicao());
-                        
+           // Tab.ColocarPeca(new Bispo(Cor.Branca, Tab), new PosicaoXadrez('f', 1).ToPosicao());
+           // Tab.ColocarPeca(new Cavalo(Cor.Branca, Tab), new PosicaoXadrez('g', 1).ToPosicao());
+            Tab.ColocarPeca(new Torre(Cor.Branca, Tab), new PosicaoXadrez('h', 1).ToPosicao());            
+
             /*Tab.ColocarPeca(new Peao(Cor.Branca, Tab), new PosicaoXadrez('a', 2).ToPosicao());
             Tab.ColocarPeca(new Peao(Cor.Branca, Tab), new PosicaoXadrez('b', 2).ToPosicao());
             Tab.ColocarPeca(new Peao(Cor.Branca, Tab), new PosicaoXadrez('c', 2).ToPosicao());

@@ -3,9 +3,9 @@ using tabuleiro.enums;
 
 namespace xadrez
 {
-    internal class Bispo : Peca
+    internal class Bispo
     {
-        public Bispo(Cor cor, Tabuleiro tabuleiro) : base(cor, tabuleiro)
+        public Bispo(Cor cor, Tabuleiro tabuleiro) //: base(cor, tabuleiro)
         {
         }
 
