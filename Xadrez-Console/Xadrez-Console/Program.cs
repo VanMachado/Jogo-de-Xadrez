@@ -3,18 +3,23 @@ using Xadrez_Console;
 using xadrez;
 using tabuleiro.exceptions;
 
-try
-{
-    PartidaDeXadrez partida = new PartidaDeXadrez();
+PartidaDeXadrez partida = new PartidaDeXadrez();
 
-    while(!partida.Terminada)
-    {        
+while (!partida.Terminada)
+{
+    try
+    {
         Console.Clear();
         Tela.ImprimirTabuleiro(partida.Tab);
+        Console.WriteLine();
+        Console.WriteLine("Turno: " + partida.Turno);
+        Console.WriteLine("Aguardando jogada: " + partida.JogadorAtual);
 
         Console.WriteLine();
         Console.Write("Origem: ");
         Posicao origem = Tela.LerPosicaoXadrez().ToPosicao();
+        partida.ValidarPosicaoDeOrigem(origem);
+
 
         bool[,] posicoesPossiveis = partida.Tab.PosicaoPeca(origem).MovimentosPosiveis();
 
@@ -24,11 +29,13 @@ try
         Console.WriteLine();
         Console.Write("Destino: ");
         Posicao destino = Tela.LerPosicaoXadrez().ToPosicao();
+        partida.ValidarPosicaoDestino(origem, destino);
 
-        partida.ExecutaMovimento(origem, destino);
-    }    
-}
-catch (TabuleiroExceptions e)
-{
-    Console.WriteLine(e.Message);
+        partida.RealizaJogada(origem, destino);        
+    }
+    catch (TabuleiroExceptions e)
+    {
+        Console.WriteLine(e.Message);
+        Console.ReadLine();
+    }
 }
