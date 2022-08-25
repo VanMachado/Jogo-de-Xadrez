@@ -48,9 +48,7 @@ namespace tabuleiro
                 return null;
             }
 
-            Peca aux = PosicaoPeca(pos);
-            //acho q vai ter um metodo MostraPecaCapturada usando esse valor
-            //antes de atribuir null pra ele
+            Peca aux = PosicaoPeca(pos);            
             aux.Posicao = null;
             Pecas[pos.Linha, pos.Coluna] = null;
             return aux;
