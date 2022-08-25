@@ -12,6 +12,7 @@ namespace xadrez
         public bool Terminada { get; private set; }
         public HashSet<Peca> Peca { get; private set; }
         public HashSet<Peca> Capturada { get; private set; }
+        public bool Xeque { get; private set; }
 
         public PartidaDeXadrez()
         {
@@ -19,26 +20,58 @@ namespace xadrez
             Turno = 1;
             JogadorAtual = Cor.Brancas;
             Terminada = false;
+            Xeque = false;
             Peca = new HashSet<Peca>();
             Capturada = new HashSet<Peca>();
             ColocarPeca();
         }
 
-        public void ExecutaMovimento(Posicao origem, Posicao destino)
+        public Peca ExecutaMovimento(Posicao origem, Posicao destino)
         {
             Peca p = Tab.RetirarPeca(origem);
             p.IncrementaQtdMov();
-            Peca pecaCapturada = Tab.RetirarPeca(destino);            
+            Peca pecaCapturada = Tab.RetirarPeca(destino);
             Tab.ColocarPeca(p, destino);
-            if(pecaCapturada != null)
+            if (pecaCapturada != null)
             {
                 Capturada.Add(pecaCapturada);
             }
+
+            return pecaCapturada;
+        }
+
+        public void DesfazOMovimento(Posicao origem, Posicao destino, Peca pecaCapturada)
+        {
+            Peca p = Tab.RetirarPeca(destino);
+            p.DecrementaQtdMov();
+
+            if(pecaCapturada != null)
+            {
+                Tab.ColocarPeca(pecaCapturada, destino);
+                Capturada.Remove(pecaCapturada);
+            }
+
+            Tab.ColocarPeca(p, origem);
         }
 
         public void RealizaJogada(Posicao origem, Posicao destino)
         {
-            ExecutaMovimento(origem, destino);
+            Peca pecaCapturada = ExecutaMovimento(origem, destino);
+
+            if (EstaEmXeque(JogadorAtual))
+            {
+                DesfazOMovimento(origem, destino, pecaCapturada);
+                throw new TabuleiroExceptions("Você não pode se por em xeque!");
+            }
+            if(EstaEmXeque(Adversaria(JogadorAtual)))
+            {
+                Xeque = true;
+            } else
+            {
+                Xeque = false;
+            }
+
+
             Turno++;
             MudaJogador();
         }
@@ -46,7 +79,7 @@ namespace xadrez
         public HashSet<Peca> PecasCapturadas(Cor cor)
         {
             HashSet<Peca> aux = new HashSet<Peca>();
-            foreach(Peca peca in Capturada)
+            foreach (Peca peca in Capturada)
             {
                 if (peca.Cor == cor)
                 {
@@ -70,6 +103,52 @@ namespace xadrez
             aux.ExceptWith(PecasCapturadas(cor));
 
             return aux;
+        }
+
+        private Cor Adversaria(Cor cor)
+        {
+            if (cor == Cor.Brancas)
+            {
+                return Cor.Pretas;
+            }
+            else
+            {
+                return Cor.Brancas;
+            }
+        }
+
+        private Peca Rei(Cor cor)
+        {
+            foreach (Peca peca in PecasEmJogo(cor))
+            {
+                if(peca is Rei)
+                {
+                    return peca;
+                }
+            }
+
+            return null;
+        }
+
+        public bool EstaEmXeque(Cor cor)
+        {
+            Peca R = Rei(cor);
+
+            if(R == null)
+            {
+                throw new TabuleiroExceptions("Cadê o baia... digo, o Rei?");
+            }
+            
+            foreach(Peca peca in PecasEmJogo(Adversaria(cor)))
+            {
+                bool[,] mat = peca.MovimentosPosiveis();                
+                if (mat[R.Posicao.Linha, R.Posicao.Coluna])
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void ValidarPosicaoDeOrigem(Posicao pos)
@@ -113,6 +192,8 @@ namespace xadrez
             Tab.ColocarPeca(peca, new PosicaoXadrez(coluna, linha).ToPosicao());
             Peca.Add(peca);
         }
+
+
 
         public void ColocarPeca()
         {
