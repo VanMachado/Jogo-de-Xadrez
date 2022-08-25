@@ -5,8 +5,11 @@ namespace xadrez
 {
     internal class Rei : Peca
     {
-        public Rei(Cor cor, Tabuleiro tabuleiro) : base(cor, tabuleiro)
+        private PartidaDeXadrez Partida;
+
+        public Rei(Tabuleiro tabuleiro, Cor cor, PartidaDeXadrez partida) : base(cor, tabuleiro)
         {
+            Partida = partida;
         }
 
         private bool PodeMover(Posicao pos)
