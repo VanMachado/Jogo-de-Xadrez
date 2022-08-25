@@ -28,7 +28,7 @@ while (!partida.Terminada)
         Posicao destino = Tela.LerPosicaoXadrez().ToPosicao();
         partida.ValidarPosicaoDestino(origem, destino);
 
-        partida.RealizaJogada(origem, destino);        
+        partida.RealizaJogada(origem, destino);               
     }
     catch (TabuleiroExceptions e)
     {
