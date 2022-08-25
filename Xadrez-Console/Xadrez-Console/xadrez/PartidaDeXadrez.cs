@@ -43,15 +43,14 @@ namespace xadrez
         public void DesfazMovimento(Posicao origem, Posicao destino, Peca pecaCapturada)
         {
             Peca p = Tab.RetirarPeca(destino);
-            Tab.ColocarPeca(p, destino);
-            p.DecrementaQtdMov();
+            p.DecrementaQtdMov();            
 
             if (pecaCapturada != null)
             {
                 Tab.ColocarPeca(pecaCapturada, destino);
                 Capturada.Remove(pecaCapturada);
             }
-
+            
             Tab.ColocarPeca(p, origem);
         }
 
@@ -74,8 +73,15 @@ namespace xadrez
                 Xeque = false;
             }
 
-            Turno++;
-            MudaJogador();
+            if (XequeMate(Adversario(JogadorAtual)))
+            {
+                Terminada = true;
+            }
+            else
+            {
+                Turno++;
+                MudaJogador();
+            }            
         }
 
         public HashSet<Peca> PecasCapturadas(Cor cor)
@@ -157,6 +163,7 @@ namespace xadrez
 
         private Peca Rei(Cor cor)
         {
+
             foreach (Peca p in PecasEmJogo(cor))
             {
                 if (p is Rei)
@@ -186,6 +193,38 @@ namespace xadrez
             }
 
             return false;
+        }
+
+        public bool XequeMate(Cor cor)
+        {
+            if (!EstaEmCheque(cor))
+            {
+                return false;
+            }
+
+            foreach (Peca x in PecasEmJogo(cor))
+            {
+                bool[,] mat = x.MovimentosPosiveis();
+                for (int i = 0; i < Tab.Linhas; i++)
+                {
+                    for (int j = 0; j < Tab.Colunas; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Posicao destino = new Posicao(i, j);
+                            Peca pecaCapturada = ExecutaMovimento(x.Posicao, destino);
+                            bool TesteXeque = EstaEmCheque(cor);
+                            DesfazMovimento(x.Posicao, destino, pecaCapturada);
+                            if (!TesteXeque)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
 
         public void ColocarNovaPeca(char coluna, int linha, Peca peca)

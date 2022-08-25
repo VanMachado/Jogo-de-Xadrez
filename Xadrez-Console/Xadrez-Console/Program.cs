@@ -10,7 +10,7 @@ while (!partida.Terminada)
     try
     {
         Console.Clear();
-        Tela.ImprimirPartida(partida);    
+        Tela.ImprimirPartida(partida);
 
         Console.WriteLine();
         Console.Write("Origem: ");
@@ -28,7 +28,7 @@ while (!partida.Terminada)
         Posicao destino = Tela.LerPosicaoXadrez().ToPosicao();
         partida.ValidarPosicaoDestino(origem, destino);
 
-        partida.RealizaJogada(origem, destino);               
+        partida.RealizaJogada(origem, destino);
     }
     catch (TabuleiroExceptions e)
     {
