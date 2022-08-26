@@ -35,6 +35,11 @@ while (!partida.Terminada)
         Console.WriteLine(e.Message);
         Console.ReadLine();
     }
+    catch (IndexOutOfRangeException e)
+    {
+        Console.WriteLine("Escolha uma posição dentro no tabuleiro!");
+        Console.ReadLine();
+    }
 }
 
 Console.Clear();

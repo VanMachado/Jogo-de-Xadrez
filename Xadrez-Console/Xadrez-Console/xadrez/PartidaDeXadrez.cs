@@ -145,6 +145,23 @@ namespace xadrez
                 DesfazOMovimento(origem, destino, pecaCapturada);
                 throw new TabuleiroExceptions("Você não pode se por em xeque!");
             }
+
+            Peca p = Tab.PosicaoPeca(destino);
+
+            // #Joga especial "Promocao"
+            if (p is Peao)
+            {
+                if (p.Cor == Cor.Brancas && destino.Linha == 0 || 
+                    p.Cor == Cor.Pretas && destino.Linha == 7)
+                {
+                    p.Tabuleiro.RetirarPeca(destino);
+                    Peca.Remove(p);
+                    Peca dama = new Dama(Tab, p.Cor);
+                    Peca.Add(dama);
+                }
+            }
+
+
             if (EstaEmXeque(Adversaria(JogadorAtual)))
             {
                 Xeque = true;
@@ -163,8 +180,7 @@ namespace xadrez
                 MudaJogador();
             }
 
-            // #Jogada especial "En Pasant"
-            Peca p = Tab.PosicaoPeca(destino);
+            // #Jogada especial "En Pasant"            
             if (p is Peao && destino.Linha == origem.Linha - 2 || destino.Linha == origem.Linha + 2)
             {
                 vulneravelEnPassant = p;
@@ -296,7 +312,7 @@ namespace xadrez
             if (!Tab.PosicaoPeca(pos).ExisteMovimentosPossiveis())
             {
                 throw new TabuleiroExceptions("Não existe movimentos disponíveis!");
-            }          
+            }            
         }
 
         public void ValidarPosicaoDestino(Posicao origem, Posicao destino)
@@ -304,7 +320,7 @@ namespace xadrez
             if (!Tab.PosicaoPeca(origem).MovimentoPosivel(destino))
             {
                 throw new TabuleiroExceptions("Posição de destino invalida!");
-            }
+            }            
         }
 
         private void MudaJogador()
