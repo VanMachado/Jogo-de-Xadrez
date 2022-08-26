@@ -61,6 +61,9 @@ namespace xadrez
             // #Jogada especial "En Passant"
             if (p is Peao)
             {
+                //A funçao do null aqui eh identificar que houve a movimentação do peao
+                //porem nao houve a captura, ja q o En Passant eh uma excecao a movimentacao
+                //padrao do peao
                 if (origem.Coluna != destino.Coluna && pecaCapturada == null)
                 {
                     Posicao posP;
@@ -112,6 +115,25 @@ namespace xadrez
                 T.DecrementaQtdMov();
                 Tab.ColocarPeca(T, origemT);
             }
+
+            // #Jogada especial "En Passant"
+            if (p is Peao)
+            {
+                if (origem.Coluna != destino.Coluna && pecaCapturada == null)
+                {
+                    Peca peao = Tab.RetirarPeca(destino);
+                    Posicao posP;
+                    if (p.Cor == Cor.Brancas)
+                    {
+                        posP = new Posicao(3, destino.Coluna);
+                    }
+                    else
+                    {
+                        posP = new Posicao(4, destino.Coluna);
+                    }
+                    Tab.ColocarPeca(peao, posP);
+                }
+            }
         }
 
         public void RealizaJogada(Posicao origem, Posicao destino)
@@ -139,6 +161,17 @@ namespace xadrez
             {
                 Turno++;
                 MudaJogador();
+            }
+
+            // #Jogada especial "En Pasant"
+            Peca p = Tab.PosicaoPeca(destino);
+            if (p is Peao && destino.Linha == origem.Linha - 2 || destino.Linha == origem.Linha + 2)
+            {
+                vulneravelEnPassant = p;
+            }
+            else
+            {
+                vulneravelEnPassant = null;
             }
         }
 
@@ -263,7 +296,7 @@ namespace xadrez
             if (!Tab.PosicaoPeca(pos).ExisteMovimentosPossiveis())
             {
                 throw new TabuleiroExceptions("Não existe movimentos disponíveis!");
-            }
+            }          
         }
 
         public void ValidarPosicaoDestino(Posicao origem, Posicao destino)
