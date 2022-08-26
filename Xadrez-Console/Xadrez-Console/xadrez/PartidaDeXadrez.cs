@@ -39,7 +39,10 @@ namespace xadrez
                 Capturada.Add(pecaCapturada);
             }
 
+<<<<<<< HEAD
            
+=======
+>>>>>>> main
             // #Jogada especial "Roque pequeno"
             if (p is Rei && destino.Coluna == origem.Coluna + 2)
             {
@@ -59,6 +62,10 @@ namespace xadrez
                 Tab.ColocarPeca(T, destinoT);
             }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
             // #Jogada especial "En Passant"
             if (p is Peao)
             {
