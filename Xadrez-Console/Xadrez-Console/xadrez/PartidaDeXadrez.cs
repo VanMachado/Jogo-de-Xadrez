@@ -58,6 +58,7 @@ namespace xadrez
                 Tab.ColocarPeca(T, destinoT);
             }
 
+
             // #Jogada especial "En Passant"
             if (p is Peao)
             {
